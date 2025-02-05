@@ -1,0 +1,32 @@
+graph TD
+    subgraph storage
+        A[Alicloud OTS] --> B[Github OAuth]
+        A --> C[Database Proxy]
+    end
+
+    subgraph func
+        subgraph graphql
+            subgraph blog
+                D[Create]
+                E[Remove]
+                F[Edit]
+                G[Comment]
+            end
+            subgraph user
+                H[Ban]
+                I[Delete]
+                J[Message]
+                K[Notice]
+            end
+        end
+        L[Database Proxy]
+    end
+
+    M[User] --> N[Webpage]
+    O[Owner] --> N
+    N --> P[Comment and Read]
+    N --> Q[Write Blogs, Manage Site, Manage User]
+    N --> B
+    B --> R[Auth Service]
+    R --> L
+    A --> L

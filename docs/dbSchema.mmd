@@ -1,0 +1,37 @@
+---
+title: design by DeepSeek
+---
+classDiagram
+    class user_table {
+        +user_id(STRING) PK
+        username
+        email
+        role
+        is_banned
+        allow_post
+        github_token
+        created_at
+    }
+
+    class post_table {
+        +post_id(STRING) PK
+        author_id
+        title
+        content
+        status
+        created_at
+        updated_at
+    }
+
+    class comment_table {
+        +post_id(STRING) PK1
+        +comment_id(STRING) PK2
+        author_id
+        content
+        status
+        created_at
+    }
+
+    user_table --> post_table: "author_id → user_id"
+    user_table --> comment_table: "author_id → user_id"
+    post_table --> comment_table: "post_id → post_id"
