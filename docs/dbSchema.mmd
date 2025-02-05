@@ -1,37 +1,43 @@
 ---
-title: design by DeepSeek
+title: design by DeepSeek & AoLoong
 ---
 classDiagram
-    class user_table {
-        +user_id(STRING) PK
+    class user {
+        +userid(String) PK
         username
         email
         role
-        is_banned
-        allow_post
-        github_token
-        created_at
+        banned
+        allowpost
+        githubtoken
+        createdat
     }
 
-    class post_table {
-        +post_id(STRING) PK
-        author_id
+    class post {
+        +postid(String) PK
+        authorid
         title
         content
         status
-        created_at
-        updated_at
+        createdat
+        updatedat
+    }
+    class commentMap {
+        +postid(String) PK
+        commentid(String)
     }
 
-    class comment_table {
-        +post_id(STRING) PK1
-        +comment_id(STRING) PK2
-        author_id
+    class comment {
+        +postid(String) PK1
+        +commentid(String) PK2
+        authorid
         content
         status
-        created_at
+        createdat
     }
 
-    user_table --> post_table: "author_id → user_id"
-    user_table --> comment_table: "author_id → user_id"
-    post_table --> comment_table: "post_id → post_id"
+    user --> post: authorid → userid
+    user --> comment: authorid → userid
+    post --> comment: postid
+    comment <-- commentMap: commentid
+    post --> commentMap: postid
