@@ -1,28 +1,125 @@
-# GraphQL schema example
-#
-# https://gqlgen.com/getting-started/
+# 输入类型
+input UserInput {
+    userId: String!
+    userName: String
+    email: String
+    banned: Boolean
+    allowPost: Boolean
+}
 
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
+input PostInput {
+    postId: String!
+}
+
+input CommentInput {
+    commentId: String!
+    postId: String
+    context: String
+}
+
+input AuthInput {
+    code: String!
+}
+
+input NewPostInput {
+    authorId: String
+    title: String
+    content: String!
+}
+
+input NewCommentInput {
+    authorId: String
+    postId: String!
+    content: String!
+}
+input AmendPostInput {
+    postId: String!
+    action: String!
+    wantDelete: Boolean
+    newTitle: String
+    newContent: String
+}
+
+input CredentialInput {
+    accessToken: String!
+    userId: String
+}
+
+# 输出类型
+type Credential {
+    accessToken: String!
+    role: Boolean
+    postPerm: Boolean
+    userId: String!
 }
 
 type User {
-  id: ID!
-  name: String!
+    userId: String!
+    userName: String
+    email: String
+    banned: Boolean
+    allowPost: Boolean
 }
 
+type Post {
+    postId: String!
+    title: String
+    content: String
+    createdAt: String
+    updatedAt: String
+}
+
+type Comment {
+    commentId: String!
+    postId: String
+    authorId: String
+    createdAt: String
+}
+
+type postQueryAct {
+    listPosts: [Post]
+    getPost(need: PostInput!): Post
+    getPosts(need: [PostInput!]):[Post]
+}
+type userQueryAct {
+    getUser(need: UserInput!): User
+}
+type commentQueryAct {
+    listCommentsByPostId(need: PostInput!): [Comment]
+    getComment(need: CommentInput!): Comment
+}
+# 查询类型
 type Query {
-  todos: [Todo!]!
-}
 
-input NewTodo {
-  text: String!
-  userId: String!
-}
+    # 查询贴文
+    post:postQueryAct
 
+    # 查询用户信息
+    user:userQueryAct
+
+    # 查询评论
+    comment:commentQueryAct
+}
+type UserMutationAct {
+    login(input: AuthInput!): Credential
+    update(input: UserInput!): User
+}
+type PostMutationAct {
+    create(input: NewPostInput!): Post
+    update(input: AmendPostInput!): Post
+}
+type CommentMutationAct {
+    create(input: NewCommentInput): Comment
+    update(input: CommentInput): Comment
+}
+# 变更类型
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
+    # 用户操作
+    user: UserMutationAct
+
+    # 帖子操作
+    post: PostMutationAct
+
+    # 评论操作
+    comment: CommentMutationAct
 }
