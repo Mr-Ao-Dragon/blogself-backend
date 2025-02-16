@@ -85,7 +85,7 @@ resource "alicloud_ots_table" "post" {
 resource "alicloud_ots_table" "map" {
   instance_name = alicloud_ots_instance.blogStore.name
   max_version   = 1
-  table_name    = ""
+  table_name    = "map"
   time_to_live  = -1
   allow_update = false
   primary_key {
@@ -100,7 +100,7 @@ resource "alicloud_ots_table" "map" {
 resource "alicloud_ots_table" "comment" {
   instance_name = alicloud_ots_instance.blogStore.name
   max_version   = 1
-  table_name    = ""
+  table_name    = "comment"
   time_to_live  = -1
   allow_update = true
   primary_key {
