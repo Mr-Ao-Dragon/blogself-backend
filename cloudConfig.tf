@@ -21,14 +21,14 @@ provider "alicloud" {
   region = var.region
 }
 resource "random_string" "name-salt" {
-  length = 7
+  length = 4
   special = false
   lower = false
   upper = true
 }
 resource "alicloud_resource_manager_resource_group" "blog" {
   display_name = "blog shelf"
-  resource_group_name = "blog-shelf-${random_string.name-salt.result}"
+  resource_group_name = "blog_shelf_${random_string.name-salt.result}"
 }
 output "resource-group-name" {
   value = alicloud_resource_manager_resource_group.blog.resource_group_name
