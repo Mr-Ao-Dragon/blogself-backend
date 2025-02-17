@@ -1,7 +1,7 @@
 resource "alicloud_ots_instance" "blogStore" {
   name              = "blogStore-${random_string.name-salt.result}"
   description       = "存储你的博客数据"
-  accessed_by       = "Vpc"
+  # accessed_by       = "Vpc"
   resource_group_id = alicloud_resource_manager_resource_group.blog.id
   instance_type     = "HighPerformance"
 }
