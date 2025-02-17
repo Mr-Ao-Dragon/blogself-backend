@@ -9,6 +9,12 @@ terraform {
       version = "3.6.2"
     }
   }
+  cloud {
+    organization = "blogshelf"
+    workspaces {
+      name = "blogshelf"
+    }
+  }
 }
 variable "region" {
   default = "cn-hongkong"
@@ -21,13 +27,13 @@ provider "alicloud" {
   region = var.region
 }
 resource "random_string" "name-salt" {
-  length = 7
+  length = 4
   special = false
   lower = false
   upper = true
 }
 resource "alicloud_resource_manager_resource_group" "blog" {
-  display_name = "blog shelf"
+  display_name = "blog_shelf"
   resource_group_name = "blog-shelf-${random_string.name-salt.result}"
 }
 output "resource-group-name" {

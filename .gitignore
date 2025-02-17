@@ -25,3 +25,6 @@ go.work.sum
 .env
 *.drawio.bkp
 /.terraform/
+*.tfstate
+*.tfstate.backup
+*.lock.hcl
