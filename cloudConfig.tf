@@ -33,7 +33,7 @@ resource "random_string" "name-salt" {
   upper = true
 }
 resource "alicloud_resource_manager_resource_group" "blog" {
-  display_name = "blog_shelf"
+  display_name = "blog shelf"
   resource_group_name = "blog-shelf-${random_string.name-salt.result}"
 }
 output "resource-group-name" {
