@@ -1,0 +1,43 @@
+on:
+  push:
+    tags:
+      - "v*"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: '1'
+      - run: go get tool github.com/99designs/gqlgen
+      - run: go build -o dist/blog-shelf .
+        env:
+          GOOS: linux
+          CGO_EANBLED: 0
+          GOARCH: amd64
+      - run: actions/upload-artifact@v4
+        with:
+          path: dist/
+          name: 'serverFile'
+  apply:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: '1'
+      - uses: actions/download-artifact@v4
+        with:
+          name: 'serverFile'
+          path: .
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      - run: terraform init
+      - run: terraform apply -auto-approve
+        env:
+          AK: ${{ searets.ALIYUN_AK }}
+          SK: ${{ searets.ALIYUN_SK }}
