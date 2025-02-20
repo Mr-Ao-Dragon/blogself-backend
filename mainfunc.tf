@@ -1,12 +1,7 @@
-resource "archive_file" "zip" {
-  source_file      = "dist/blogshelf-bakcend"
-  output_path      = "dist/code.zip"
-  type             = "zip"
-  output_file_mode = "0444"
-}
 resource "alicloud_fcv3_function" "blogShelf" {
   code {
-    zip_file = filebase64(tostring(archive_file.zip.output_path))
+    oss_bucket_name = alicloud_oss_bucket.distStore.bucket
+    oss_object_name = "blogshelf_backend"
   }
   handler = "blogshelf-backend"
   runtime = "custom.debian10"
@@ -28,6 +23,20 @@ resource "alicloud_fcv3_function" "blogShelf" {
   timeout              = 20
   instance_concurrency = 50
 }
+resource "alicloud_oss_bucket" "distStore" {
+  bucket = "BSdist-${random_string.name-salt.result}"
+  resource_group_id = alicloud_resource_manager_resource_group.blog.id
+}
+resource "alicloud_oss_bucket_object" "dist" {
+  bucket = alicloud_oss_bucket.distStore
+  key    = "blogshelf-backend"
+  source = "./dist/blogshelf-backend"
+  content_type = "application/octet-stream"
+}
+resource "alicloud_oss_bucket_acl" "dist" {
+  acl    = "private"
+  bucket = alicloud_oss_bucket.distStore.bucket
+}
 resource "alicloud_ram_group" "blog" {
   name = "blogshelf"
 }
@@ -43,7 +52,38 @@ resource "alicloud_ram_group_membership" "allSystemUsers" {
 }
 resource "alicloud_ram_policy" "blogDataFullAccess" {
   description     = "允许访问博客全部数据"
-  policy_document = "{\"Version\":\"1\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"ots:*Row\",\"ots:GetRange\",],\"Resource\":[\"acs:ots:*:*:instance/blogStore-*/table/user\",\"acs:ots:*:*:instance/blogStore-*/table/post\",\"acs:ots:*:*:instance/blogStore-*/table/map\",\"acs:ots:*:*:instance/blogStore-*/table/comment\"],\"Condition\":{}},{\"Effect\":\"Deny\",\"Action\":[\"ots:DeleteRow\"],\"Resource\":[\"acs:ots:*:*:instance/blogStore-*/table/user\",\"acs:ots:*:*:instance/blogStore-*/table/post\"],\"Condition\":{}}]}"
+  policy_document = <<EOF
+{
+  "Version": "1",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ots:*Row",
+        "ots:GetRange"
+      ],
+      "Resource": [
+        "acs:ots:*:*:instance/blogStore-*/table/user",
+        "acs:ots:*:*:instance/blogStore-*/table/post",
+        "acs:ots:*:*:instance/blogStore-*/table/map",
+        "acs:ots:*:*:instance/blogStore-*/table/comment"
+      ],
+      "Condition": {}
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "ots:DeleteRow"
+      ],
+      "Resource": [
+        "acs:ots:*:*:instance/blogStore-*/table/user",
+        "acs:ots:*:*:instance/blogStore-*/table/post"
+      ],
+      "Condition": {}
+    }
+  ]
+}
+EOF
   policy_name     = "blogFunc"
 }
 resource "alicloud_ram_role" "blogFunc" {
