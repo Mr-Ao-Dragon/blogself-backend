@@ -25,6 +25,8 @@ variable "region" {
 }
 variable "AK" {}
 variable "SK" {}
+variable "GH_BASIC_CLIENT_ID" {}
+variable "GH_BASIC_SECRET_SECRET" {}
 provider "alicloud" {
   access_key = var.AK
   secret_key = var.SK

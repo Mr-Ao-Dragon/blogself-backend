@@ -2,9 +2,7 @@ package main
 
 import (
 	"log"
-	"os"
 	"strconv"
-	"time"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
@@ -13,28 +11,14 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/Mr-Ao-Dragon/blogself-backend/graph"
 	"github.com/gin-gonic/gin"
-	"github.com/patrickmn/go-cache"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
 const defaultPort = "8080"
 
-var dataToken = cache.New(time.Hour, 24*time.Hour)
-
 func init() {
 	if gin.Mode() == gin.ReleaseMode {
-		if err := dataToken.Add("AK", os.Getenv("ALIBABA_CLOUD_ACCESS_KEY_ID"), cache.DefaultExpiration); err != nil {
-			log.Panicln("Get Access key fail, crash now.")
-		}
-		if err := dataToken.Add("SK", os.Getenv("ALIBABA_CLOUD_SECRET_KEY_ID"), cache.DefaultExpiration); err != nil {
-			log.Panicln("Get Secret key fail, crash now.")
-		}
-		if err := dataToken.Add("STS", os.Getenv("ALIBABA_CLOUD_SECURITY_TOKEN"), cache.DefaultExpiration); err != nil {
-			log.Panicln("Get securityToken fail, crash now.")
-		}
-		if err := dataToken.Add("TARGET_DB", os.Getenv("OTS_NAME"), cache.DefaultExpiration); err != nil {
-			log.Panicln("Get database name fail, crash now.")
-		}
+
 	}
 }
 func main() {
