@@ -10,6 +10,8 @@ resource "alicloud_fcv3_function" "blogShelf" {
   environment_variables = {
     GIN_MODE = "release"
     OTS_NAME = alicloud_ots_instance.blogStore.id
+    GH_BASIC_CLIENT_ID=var.GH_BASIC_CLIENT_ID
+    GH_BASIC_SECRET_SECRET=var.GH_BASIC_SECRET_SECRET
   }
   custom_runtime_config {
     port = 3000

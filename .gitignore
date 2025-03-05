@@ -27,6 +27,7 @@ go.work.sum
 /.terraform/
 *.tfstate
 *.tfstate.backup
+*.tfvars
 *.lock.hcl
 /dist/
 *.tfvars
