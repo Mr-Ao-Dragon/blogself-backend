@@ -29,3 +29,4 @@ go.work.sum
 *.tfstate.backup
 *.lock.hcl
 /dist/
+*.tfvars
