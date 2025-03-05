@@ -23,8 +23,23 @@ terraform {
 variable "region" {
   default = "cn-hongkong"
 }
-variable "AK" {}
-variable "SK" {}
+variable "AK" {
+  nullable = false
+  sensitive = false
+}
+variable "SK" {
+  nullable = false
+  sensitive = false
+}
+variable "GH_BASIC_CLIENT_ID" {
+  nullable = false
+  sensitive = false
+
+}
+variable "GH_BASIC_SECRET_SECRET" {
+  nullable = false
+  sensitive = false
+}
 provider "alicloud" {
   access_key = var.AK
   secret_key = var.SK
@@ -33,8 +48,8 @@ provider "alicloud" {
 resource "random_string" "name-salt" {
   length = 4
   special = false
-  lower = false
-  upper = true
+  lower = true
+  upper = false
 }
 resource "alicloud_resource_manager_resource_group" "blog" {
   display_name = "blog shelf"
