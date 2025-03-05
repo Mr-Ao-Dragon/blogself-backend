@@ -30,3 +30,4 @@ go.work.sum
 *.tfvars
 *.lock.hcl
 /dist/
+*.tfvars
