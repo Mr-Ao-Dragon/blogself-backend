@@ -51,7 +51,7 @@ func main() {
 	}
 	router.Any("/", func(c *gin.Context) {
 
-		playgroundHandler := playground.Handler("GraphQL playground", "/graphql")
+		playgroundHandler := playground.Handler("GraphQL playground", "/graphql/playground")
 		playgroundHandler.ServeHTTP(c.Writer, c.Request)
 	})
 	router.Any("/ping", func(c *gin.Context) {
