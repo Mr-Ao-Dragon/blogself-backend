@@ -48,4 +48,10 @@ func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
+
+func (r *mutationResolver) UpdateUser(ctx *context.Context) error {
+
+	return nil
+}
+
 type queryResolver struct{ *Resolver }

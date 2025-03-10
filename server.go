@@ -23,7 +23,7 @@ func init() {
 }
 func main() {
 
-	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{OtsClient: newDbConn()}}))
 
 	srv.AddTransport(transport.Options{})
 	srv.AddTransport(transport.GET{})

@@ -1,4 +1,4 @@
-package database
+package main
 
 import (
 	"log"
@@ -36,7 +36,7 @@ func init() {
 func readConfigFromEnv(cfgIndex, env string) error {
 	return dataToken.Add(cfgIndex, os.Getenv(env), cache.DefaultExpiration)
 }
-func NewDbConn() *tablestore.TableStoreClient {
+func newDbConn() *tablestore.TableStoreClient {
 	client := func() *tablestore.TableStoreClient {
 		otsName, cached := dataToken.Get("OTS_NAME")
 		crashWithNoCache(cached)
