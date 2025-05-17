@@ -1,4 +1,4 @@
-package main
+package blogself_backend
 
 import (
 	"log"

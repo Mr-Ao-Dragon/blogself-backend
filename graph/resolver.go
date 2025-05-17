@@ -11,9 +11,11 @@ import (
 
 type Resolver struct {
 	OtsClient *tablestore.TableStoreClient
+	TransID   *string
+	errors    chan error
 }
 
-func (r *Resolver) NewTrans(table string, transPK map[string]any) (any, error) {
+func (r *Resolver) NewTrans(table string, transPK map[string]any) *Resolver {
 	transPrimaryKey := new(tablestore.PrimaryKey)
 	for k, v := range transPK {
 		transPrimaryKey.AddPrimaryKeyColumn(k, v)
@@ -24,7 +26,9 @@ func (r *Resolver) NewTrans(table string, transPK map[string]any) (any, error) {
 	}
 	resp, err := r.OtsClient.StartLocalTransaction(trans)
 	if err != nil {
-		return nil, err
+		log.Fatal().Err(err).Msgf("launch Transtion failed by RequestID: %s", resp.RequestId)
+		r.errors <- err
 	}
-	return resp.TransactionId, nil
+	r.TransID = resp.TransactionId
+	return r
 }

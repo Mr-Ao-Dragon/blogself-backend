@@ -6,7 +6,9 @@ require (
 	github.com/99designs/gqlgen v0.17.64
 	github.com/aliyun/aliyun-tablestore-go-sdk v1.7.17
 	github.com/gin-gonic/gin v1.10.0
+	github.com/matoous/go-nanoid/v2 v2.1.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
+	github.com/rs/zerolog v1.33.0
 	github.com/vektah/gqlparser/v2 v2.5.22
 )
 
@@ -33,6 +35,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
+	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
